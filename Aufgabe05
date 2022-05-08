@@ -1,0 +1,79 @@
+import random
+
+
+def power(a, b):
+    if a < 0 or b < 0:
+        return -1
+    if b == 0:
+        return 1
+    else:
+        return a * power(a, b - 1)
+
+
+print(power(4, 6))
+
+
+def binary_search(numbers, num, start, end):
+    # the list is sorted
+    numbers = sorted(numbers)
+    # Finding the index of the middle element
+    mid = (start + end) // 2
+    # limitation on the absence of an element
+    if num not in numbers:
+        return -1
+    # index search
+    if numbers[mid] == num:
+        return mid
+    else:
+        if numbers[mid] > num:
+            return binary_search(numbers, num, start, mid - 1)
+        else:
+            return binary_search(numbers, num, mid + 1, end)
+
+
+numbers = [1, 5, 7, 3, 9, 2, 1]
+num = 3
+start = 0
+end = 6
+print(binary_search(numbers, num, start, end))
+
+
+class HashTable:
+    def __init__(self, size):
+        self.size = size
+        self.my_list = []
+        for i in range(self.size):
+            self.my_list.append([])
+
+    def __my_hash(self, element):
+        # return self.size % id(element)
+
+        if type(element) is str:
+            return len(element) % random.randint(0, self.size)
+        elif type(element) is int:
+            return element % random.randint(0, self.size)
+
+    def insert(self, element):
+        self.my_list[self.__my_hash(element)].append(element)
+
+    def get_element(self, element):
+        if element not in self.my_list:
+            return False
+        else:
+            for i in self.my_list:
+                if element == self.my_list[i]:
+                    a = self.my_list[i]
+                    del self.my_list[i]
+                    return a
+
+    def get_size(self):
+        count = 0
+        for i in self.my_list:
+            if len(i) > 0:
+                count = count + 1
+        return count
+
+k = HashTable(8)
+print(k)
+k.insert("John")
+print(k.get_size())
